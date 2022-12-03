@@ -1,6 +1,7 @@
 import cors from "cors";
 import {logging, writeDateLogging} from "./middleware/loggingMiddleware";
-import userRoutes from "./routes/userRoute";
+import userRoute from "./routes/userRoute";
+import medRoute from "./routes/medRoute";
 import {CLIENT_URL, SERVER_PORT} from "./config/settings";
 import {config} from "./config/mikro-orm";
 import logger from "./config/logger";
@@ -24,7 +25,8 @@ app.use(cors({
 
 app.use(cookieParser());
 app.use(writeDateLogging);
-app.use("/api/users", userRoutes);
+app.use("/api/users", userRoute);
+app.use("/api/med", medRoute);
 app.use(logging);
 
 app.listen(SERVER_PORT, async () => {

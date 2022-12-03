@@ -5,3 +5,5 @@ export const DB_URI: string = process.env.DB_URI || 'postgres://postgres:root@po
 export const SERVER_PORT: number = +(process.env.SERVER_PORT || 5000);
 export const JWT_SECRET: string = process.env.JWT_SECRET || 'someSecretKey33485';
 export const CLIENT_URL: string = process.env.CLIENT_URL || 'http://localhost:3000';
+export const AI_ENDPOINT: string = process.env.AI_ENDPOINT as string;
+export const AI_API_KEY: string = process.env.AI_API_KEY as string;
