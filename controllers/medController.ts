@@ -88,6 +88,26 @@ async function getFormById(req: Request, res: Response, next: NextFunction) {
     }
 }
 
+async function deleteFormById(req: Request, res: Response, next: NextFunction) {
+    try {
+        const {id} = req.params;
+
+        const form = await DI.em.findOne(MedicalForms, {id: +id});
+
+        if (!form) {
+            res.status(400).json({error: true, message: 'Form not found'});
+            return next();
+        }
+
+        await DI.em.removeAndFlush(form);
+
+        res.status(200).send(form);
+        return next();
+    } catch (e) {
+        logger.error(`deleteFormById controller: ${e}`);
+        return next();
+    }
+}
 
 
-export {analysis, getAllForms, getFormById};
+export {analysis, getAllForms, getFormById, deleteFormById};

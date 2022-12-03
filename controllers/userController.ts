@@ -143,6 +143,25 @@ async function getDoctorById(req: Request, res: Response, next: NextFunction) {
     }
 }
 
+async function deleteDoctorById(req: Request, res: Response, next: NextFunction) {
+    try {
+        const {id} = req.params;
+        const doctor = await DI.em.findOne(Doctors, {id: +id});
+
+        if (!doctor) {
+            res.status(400).json({error: true, message: 'Doctor not found'});
+            return next();
+        }
+
+        await DI.em.removeAndFlush(doctor);
+
+        res.status(200).send(doctor);
+        return next();
+    } catch (e) {
+        logger.error(`deleteDoctorById controller: ${e}`);
+        return next();
+    }
+}
 
 
 async function validate(req: Request, res: Response, next: NextFunction) {
@@ -167,4 +186,4 @@ async function validate(req: Request, res: Response, next: NextFunction) {
     }
 }
 
-export {register, login, logout, getCurrentUser, validate, getAllDoctors, getDoctorById};
+export {register, login, logout, getCurrentUser, validate, getAllDoctors, getDoctorById, deleteDoctorById};

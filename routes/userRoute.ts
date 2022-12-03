@@ -6,7 +6,7 @@ import {
     validate,
     logout,
     getAllDoctors,
-    getDoctorById
+    getDoctorById, deleteDoctorById
 } from "../controllers/userController";
 import protectedRoute from "../middleware/authMiddleware";
 
@@ -19,6 +19,9 @@ router.get("/logout", logout);
 router.get("/getMe", protectedRoute, getCurrentUser);
 router.get("/getAllDoctors", getAllDoctors);
 router.get("/getDoctorById/:id", getDoctorById);
+
+router.delete("/deleteDoctorById/:id", deleteDoctorById);
+
 router.post("/validate", validate);
 
 export default router;

@@ -53,4 +53,26 @@ async function getRecordById(req: Request, res: Response, next: NextFunction) {
     }
 }
 
-export {createRecord, getAllRecords, getRecordById};
+async function deleteRecordById(req: Request, res: Response, next: NextFunction) {
+    try {
+        const {id} = req.params;
+
+        const record = await DI.em.findOne(Records, {id: +id});
+
+        if (!record) {
+            res.status(400).json({error: true, message: 'Record not found'});
+            return next();
+        }
+
+        await DI.em.removeAndFlush(record);
+
+        res.status(200).send(record);
+        return next();
+    } catch (e) {
+        logger.error(`deleteRecordById controller: ${e}`);
+        return next();
+    }
+}
+
+
+export {createRecord, getAllRecords, getRecordById, deleteRecordById};
