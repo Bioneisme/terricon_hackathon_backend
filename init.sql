@@ -53,6 +53,7 @@ CREATE TABLE IF NOT EXISTS doctors
     IIN character varying(10) NOT NULL,
     name character varying(100) NOT NULL,
     role character varying(20) NOT NULL,
+    password character varying(255) NOT NULL,
     created_at character varying(50) NOT NULL,
     updated_at character varying(50) NOT NULL
 );

@@ -4,6 +4,7 @@ import {NextFunction, Request, Response} from "express";
 import {UserRequest} from "../types";
 import bcryptjs from "bcryptjs";
 import {Doctors} from "../entities";
+import logger from "../config/logger";
 
 async function register(req: Request, res: Response, next: NextFunction) {
     try {
@@ -17,7 +18,7 @@ async function register(req: Request, res: Response, next: NextFunction) {
         const existingUser = await DI.em.findOne(Doctors, {id});
 
         if (existingUser) {
-            res.status(400).json({error: true, message: 'User already exists'});
+            res.status(400).json({error: true, message: 'User with this ID already exists'});
             return next();
         }
 
@@ -42,6 +43,7 @@ async function register(req: Request, res: Response, next: NextFunction) {
         res.status(201).send({...user, token: generateJWT(user.id)});
         return next();
     } catch (e) {
+        logger.error(`Register controller: ${e}`);
         return next();
     }
 }
@@ -72,6 +74,7 @@ async function login(req: Request, res: Response, next: NextFunction) {
         res.status(201).send({...(user), token: generateJWT(user.id)});
         return next();
     } catch (e) {
+        logger.error(`Login controller: ${e}`);
         return next();
     }
 }
@@ -82,6 +85,7 @@ async function logout(req: Request, res: Response, next: NextFunction) {
         res.status(200);
         return next();
     } catch (e) {
+        logger.error(`Logout controller: ${e}`);
         return next();
     }
 }
@@ -99,14 +103,15 @@ async function getCurrentUser(req: Request, res: Response, next: NextFunction) {
         res.status(200).send(user);
         return next();
     } catch (e) {
+        logger.error(`getCurrentUser controller: ${e}`);
         return next();
     }
 }
 
 async function validate(req: Request, res: Response, next: NextFunction) {
     try {
-        const {jwt} = req.body;
-        const decoded = verifyJWT(jwt);
+        const {token} = req.body;
+        const decoded = verifyJWT(token);
 
         const id: number = (decoded as { id: number }).id;
 
@@ -117,9 +122,10 @@ async function validate(req: Request, res: Response, next: NextFunction) {
         }
         (req as UserRequest).user = user;
 
-        res.status(200).json({jwt, user});
+        res.status(200).json({token, user});
         return next();
     } catch (e) {
+        logger.error(`Validate controller: ${e}`);
         return next();
     }
 }
