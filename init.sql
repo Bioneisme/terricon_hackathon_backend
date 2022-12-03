@@ -64,3 +64,12 @@ CREATE TABLE IF NOT EXISTS doctors
     created_at character varying(50) NOT NULL,
     updated_at character varying(50) NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS records
+(
+    id SERIAL NOT NULL PRIMARY KEY,
+    title character varying(50) NOT NULL,
+    fields text NOT NULL,
+    created_at character varying(50) NOT NULL,
+    updated_at character varying(50) NOT NULL
+);
