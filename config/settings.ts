@@ -10,4 +10,3 @@ export const AI_API_KEY: string = process.env.AI_API_KEY as string;
 export const CLOUD_NAME: string = process.env.CLOUD_NAME as string;
 export const CLOUD_API_KEY: string = process.env.CLOUD_API_KEY as string;
 export const CLOUD_API_SECRET: string = process.env.CLOUD_API_SECRET as string;
-export const HTTP_PROXY: string = process.env.HTTP_PROXY as string;

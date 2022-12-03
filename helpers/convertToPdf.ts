@@ -12,7 +12,8 @@ cloudinary.config({
     secure: true
 });
 
-const exceptions = ['original_text', 'translated_text', 'created_at', 'updated_at', 'id', 'toJSON', 'pdf_url']
+const exceptions = ['original_text', 'translated_text', 'created_at', 'updated_at', 'id', 'toJSON', 'pdf_url', 'doctor',
+    'form_type']
 
 export async function convertToPdf(obj: MedicalForms): Promise<string> {
     const doc = new PDFDocument({autoFirstPage: false, size: 'A4'});
@@ -28,7 +29,7 @@ export async function convertToPdf(obj: MedicalForms): Promise<string> {
         .text(`Медицинская запись`, 100, 100);
 
     doc.fontSize(20)
-        .text(`<Название формы>`, 100, 123);
+        .text(`${obj.form_type}`, 100, 123);
 
     doc.fontSize(10)
         .text(moment(obj.created_at).format('LLLL'));

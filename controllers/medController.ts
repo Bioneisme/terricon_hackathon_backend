@@ -26,7 +26,7 @@ async function translator(data: any): Promise<string[]> {
 
 async function analysis(req: Request, res: Response, next: NextFunction) {
     try {
-        const {data} = req.body;
+        const {data, form_type, doctor_id} = req.body;
         const translatedData: string[] = await translator(data);
         const info = await textAnalytics(translatedData);
         if (info.error || info.data == null) {
@@ -34,7 +34,8 @@ async function analysis(req: Request, res: Response, next: NextFunction) {
             return next();
         }
 
-        const form = DI.em.create(MedicalForms, {original_text: data, translated_text: translatedData, ...info.data});
+        const form = DI.em.create(MedicalForms, {original_text: data, translated_text: translatedData,
+            form_type, doctor: doctor_id, ...info.data});
 
         const url = await convertToPdf(form);
         wrap(form).assign({
@@ -51,4 +52,42 @@ async function analysis(req: Request, res: Response, next: NextFunction) {
     }
 }
 
-export {analysis};
+async function getAllForms(req: Request, res: Response, next: NextFunction) {
+    try {
+        const forms = await DI.em.find(MedicalForms, {}, {fields: ['id', 'created_at', 'form_type', 'doctor']});
+
+        if (!forms) {
+            res.status(400).json({error: true, message: 'Forms not found'});
+            return next();
+        }
+
+        res.status(200).send(forms);
+        return next();
+    } catch (e) {
+        logger.error(`getAllForms controller: ${e}`);
+        return next();
+    }
+}
+
+async function getFormById(req: Request, res: Response, next: NextFunction) {
+    try {
+        const {id} = req.params;
+
+        const form = await DI.em.findOne(MedicalForms, {id: +id});
+
+        if (!form) {
+            res.status(400).json({error: true, message: 'Form not found'});
+            return next();
+        }
+
+        res.status(200).send(form);
+        return next();
+    } catch (e) {
+        logger.error(`getFormById controller: ${e}`);
+        return next();
+    }
+}
+
+
+
+export {analysis, getAllForms, getFormById};

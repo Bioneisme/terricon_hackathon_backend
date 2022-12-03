@@ -3,6 +3,8 @@ CREATE TABLE IF NOT EXISTS medical_forms
     id SERIAL NOT NULL PRIMARY KEY,
     original_text text NOT NULL,
     translated_text text NOT NULL,
+    form_type character varying (50) NOT NULL,
+    doctor_id integer,
     pdf_url text,
     abbreviation text,
     body_site_of_condition text,
@@ -44,7 +46,12 @@ CREATE TABLE IF NOT EXISTS medical_forms
     symptom_or_sign text,
     treatment_name text,
     created_at character varying(50) NOT NULL,
-    updated_at character varying(50) NOT NULL
+    updated_at character varying(50) NOT NULL,
+    CONSTRAINT medical_forms_doctor_id_fkey FOREIGN KEY (doctor_id)
+    REFERENCES public.doctors (id) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE NO ACTION
+    NOT VALID
 );
 
 CREATE TABLE IF NOT EXISTS doctors

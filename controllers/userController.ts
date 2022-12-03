@@ -108,6 +108,43 @@ async function getCurrentUser(req: Request, res: Response, next: NextFunction) {
     }
 }
 
+async function getAllDoctors(req: Request, res: Response, next: NextFunction) {
+    try {
+        const doctors = await DI.em.find(Doctors, {});
+
+        if (!doctors) {
+            res.status(400).json({error: true, message: 'Doctors not found'});
+            return next();
+        }
+
+        res.status(200).send(doctors);
+        return next();
+    } catch (e) {
+        logger.error(`getAllDoctors controller: ${e}`);
+        return next();
+    }
+}
+
+async function getDoctorById(req: Request, res: Response, next: NextFunction) {
+    try {
+        const {id} = req.params;
+        const doctor = await DI.em.findOne(Doctors, {id: +id});
+
+        if (!doctor) {
+            res.status(400).json({error: true, message: 'Doctor not found'});
+            return next();
+        }
+
+        res.status(200).send(doctor);
+        return next();
+    } catch (e) {
+        logger.error(`getDoctorById controller: ${e}`);
+        return next();
+    }
+}
+
+
+
 async function validate(req: Request, res: Response, next: NextFunction) {
     try {
         const {token} = req.body;
@@ -130,4 +167,4 @@ async function validate(req: Request, res: Response, next: NextFunction) {
     }
 }
 
-export {register, login, logout, getCurrentUser, validate};
+export {register, login, logout, getCurrentUser, validate, getAllDoctors, getDoctorById};

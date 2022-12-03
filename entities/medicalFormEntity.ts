@@ -1,5 +1,6 @@
-import {Entity, Property} from "@mikro-orm/core";
+import {Entity, ManyToOne, Property} from "@mikro-orm/core";
 import {baseEntity} from "./baseEntity";
+import {Doctors} from "./doctorEntity";
 
 @Entity()
 export class MedicalForms extends baseEntity {
@@ -11,6 +12,12 @@ export class MedicalForms extends baseEntity {
 
     @Property({type: "string"})
     pdf_url?: string;
+
+    @Property({type: "string"})
+    form_type?: string;
+
+    @ManyToOne({type: Doctors})
+    doctor!: Doctors;
 
     @Property({type: "array"})
     abbreviation?: string[];
@@ -130,7 +137,7 @@ export class MedicalForms extends baseEntity {
     treatment_name?: string[];
 
     constructor(original_text: string[], translated_text: string[], pdf_url: string, abbreviation: string[],
-                body_site_of_condition: string[], body_site_of_treatment: string[],
+                body_site_of_condition: string[], body_site_of_treatment: string[], doctor: Doctors, form_type: string,
                 course_of_condition: string[], course_of_examination: string[], course_of_medication: string[],
                 course_of_treatment: string[], direction_of_body_structure: string[], direction_of_condition: string[],
                 direction_of_examination: string[], direction_of_treatment: string[], dosage_of_medication: string[],
@@ -146,6 +153,8 @@ export class MedicalForms extends baseEntity {
         this.original_text = original_text;
         this.translated_text = translated_text;
         this.pdf_url = pdf_url;
+        this.doctor = doctor;
+        this.form_type = form_type;
         this.diagnosis = diagnosis;
         this.symptom_or_sign = symptom_or_sign;
         this.medication_name = medication_name;
