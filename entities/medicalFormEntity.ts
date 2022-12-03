@@ -3,140 +3,149 @@ import {baseEntity} from "./baseEntity";
 
 @Entity()
 export class MedicalForms extends baseEntity {
-    @Property({type: "string"})
-    original_text!: string;
+    @Property({type: "array"})
+    original_text!: string[];
+
+    @Property({type: "array"})
+    translated_text!: string[];
 
     @Property({type: "string"})
-    abbreviation?: string;
+    pdf_url?: string;
 
-    @Property({type: "string"})
-    body_site_of_condition?: string;
+    @Property({type: "array"})
+    abbreviation?: string[];
 
-    @Property({type: "string"})
-    body_site_of_treatment?: string;
+    @Property({type: "array"})
+    body_site_of_condition?: string[];
 
-    @Property({type: "string"})
-    course_of_condition?: string;
+    @Property({type: "array"})
+    body_site_of_treatment?: string[];
 
-    @Property({type: "string"})
-    course_of_examination?: string;
+    @Property({type: "array"})
+    course_of_condition?: string[];
 
-    @Property({type: "string"})
-    course_of_medication?: string;
+    @Property({type: "array"})
+    course_of_examination?: string[];
 
-    @Property({type: "string"})
-    course_of_treatment?: string;
+    @Property({type: "array"})
+    course_of_medication?: string[];
 
-    @Property({type: "string"})
-    direction_of_body_structure?: string;
+    @Property({type: "array"})
+    course_of_treatment?: string[];
 
-    @Property({type: "string"})
-    direction_of_condition?: string;
+    @Property({type: "array"})
+    direction_of_body_structure?: string[];
 
-    @Property({type: "string"})
-    direction_of_examination?: string;
+    @Property({type: "array"})
+    direction_of_condition?: string[];
 
-    @Property({type: "string"})
-    direction_of_treatment?: string;
+    @Property({type: "array"})
+    direction_of_examination?: string[];
 
-    @Property({type: "string"})
-    dosage_of_medication?: string;
+    @Property({type: "array"})
+    direction_of_treatment?: string[];
 
-    @Property({type: "string"})
-    examination_finds_condition?: string;
+    @Property({type: "array"})
+    dosage_of_medication?: string[];
 
-    @Property({type: "string"})
-    expression_of_gene?: string;
+    @Property({type: "array"})
+    examination_finds_condition?: string[];
 
-    @Property({type: "string"})
-    expression_of_variant?: string;
+    @Property({type: "array"})
+    expression_of_gene?: string[];
 
-    @Property({type: "string"})
-    form_of_medication?: string;
+    @Property({type: "array"})
+    expression_of_variant?: string[];
 
-    @Property({type: "string"})
-    frequency_of_condition?: string;
+    @Property({type: "array"})
+    form_of_medication?: string[];
 
-    @Property({type: "string"})
-    frequency_of_medication?: string;
+    @Property({type: "array"})
+    frequency_of_condition?: string[];
 
-    @Property({type: "string"})
-    frequency_of_treatment?: string;
+    @Property({type: "array"})
+    frequency_of_medication?: string[];
 
-    @Property({type: "string"})
-    mutation_type_of_gene?: string;
+    @Property({type: "array"})
+    frequency_of_treatment?: string[];
 
-    @Property({type: "string"})
-    mutation_type_of_variant?: string;
+    @Property({type: "array"})
+    mutation_type_of_gene?: string[];
 
-    @Property({type: "string"})
-    qualifier_of_condition?: string;
+    @Property({type: "array"})
+    mutation_type_of_variant?: string[];
 
-    @Property({type: "string"})
-    relation_of_examination?: string;
+    @Property({type: "array"})
+    qualifier_of_condition?: string[];
 
-    @Property({type: "string"})
-    scale_of_condition?: string;
+    @Property({type: "array"})
+    relation_of_examination?: string[];
 
-    @Property({type: "string"})
-    time_of_condition?: string;
+    @Property({type: "array"})
+    scale_of_condition?: string[];
 
-    @Property({type: "string"})
-    time_of_event?: string;
+    @Property({type: "array"})
+    time_of_condition?: string[];
 
-    @Property({type: "string"})
-    time_of_examination?: string;
+    @Property({type: "array"})
+    time_of_event?: string[];
 
-    @Property({type: "string"})
-    time_of_medication?: string;
+    @Property({type: "array"})
+    time_of_examination?: string[];
 
-    @Property({type: "string"})
-    time_of_treatment?: string;
+    @Property({type: "array"})
+    time_of_medication?: string[];
 
-    @Property({type: "string"})
-    unit_of_condition?: string;
+    @Property({type: "array"})
+    time_of_treatment?: string[];
 
-    @Property({type: "string"})
-    unit_of_examination?: string;
+    @Property({type: "array"})
+    unit_of_condition?: string[];
 
-    @Property({type: "string"})
-    value_of_condition?: string;
+    @Property({type: "array"})
+    unit_of_examination?: string[];
 
-    @Property({type: "string"})
-    value_of_examination?: string;
+    @Property({type: "array"})
+    value_of_condition?: string[];
 
-    @Property({type: "string"})
-    variant_of_gene?: string;
+    @Property({type: "array"})
+    value_of_examination?: string[];
 
-    @Property({type: "string"})
-    route_of_medication?: string;
+    @Property({type: "array"})
+    variant_of_gene?: string[];
 
-    @Property({type: "string"})
-    diagnosis?: string;
+    @Property({type: "array"})
+    route_of_medication?: string[];
 
-    @Property({type: "string"})
-    symptom_or_sign?: string;
+    @Property({type: "array"})
+    diagnosis?: string[];
 
-    @Property({type: "string"})
-    medication_name?: string;
+    @Property({type: "array"})
+    symptom_or_sign?: string[];
 
-    @Property({type: "string"})
-    treatment_name?: string;
+    @Property({type: "array"})
+    medication_name?: string[];
 
-    constructor(original_text: string, abbreviation: string, body_site_of_condition: string, body_site_of_treatment: string,
-                course_of_condition: string, course_of_examination: string, course_of_medication: string,
-                course_of_treatment: string, direction_of_body_structure: string, direction_of_condition: string,
-                direction_of_examination: string, direction_of_treatment: string, dosage_of_medication: string,
-                examination_finds_condition: string, expression_of_gene: string, expression_of_variant: string,
-                form_of_medication: string, frequency_of_condition: string, frequency_of_medication: string,
-                frequency_of_treatment: string, mutation_type_of_gene: string, mutation_type_of_variant: string,
-                qualifier_of_condition: string, relation_of_examination: string, scale_of_condition: string,
-                time_of_condition: string, time_of_event: string, time_of_examination: string, time_of_medication: string,
-                time_of_treatment: string, unit_of_condition: string, unit_of_examination: string, value_of_condition: string,
-                value_of_examination: string, variant_of_gene: string, route_of_medication: string, diagnosis: string,
-                symptom_or_sign: string, medication_name: string, treatment_name: string) {
+    @Property({type: "array"})
+    treatment_name?: string[];
+
+    constructor(original_text: string[], translated_text: string[], pdf_url: string, abbreviation: string[],
+                body_site_of_condition: string[], body_site_of_treatment: string[],
+                course_of_condition: string[], course_of_examination: string[], course_of_medication: string[],
+                course_of_treatment: string[], direction_of_body_structure: string[], direction_of_condition: string[],
+                direction_of_examination: string[], direction_of_treatment: string[], dosage_of_medication: string[],
+                examination_finds_condition: string[], expression_of_gene: string[], expression_of_variant: string[],
+                form_of_medication: string[], frequency_of_condition: string[], frequency_of_medication: string[],
+                frequency_of_treatment: string[], mutation_type_of_gene: string[], mutation_type_of_variant: string[],
+                qualifier_of_condition: string[], relation_of_examination: string[], scale_of_condition: string[],
+                time_of_condition: string[], time_of_event: string[], time_of_examination: string[], time_of_medication: string[],
+                time_of_treatment: string[], unit_of_condition: string[], unit_of_examination: string[], value_of_condition: string[],
+                value_of_examination: string[], variant_of_gene: string[], route_of_medication: string[], diagnosis: string[],
+                symptom_or_sign: string[], medication_name: string[], treatment_name: string[]) {
         super();
         this.original_text = original_text;
+        this.translated_text = translated_text;
+        this.pdf_url = pdf_url;
         this.diagnosis = diagnosis;
         this.symptom_or_sign = symptom_or_sign;
         this.medication_name = medication_name;

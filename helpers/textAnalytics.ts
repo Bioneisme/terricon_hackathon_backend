@@ -1,27 +1,16 @@
-import {AzureKeyCredential, TextAnalyticsClient} from "@azure/ai-text-analytics";
+import {AzureKeyCredential, TextAnalyticsClient, TextAnalyticsError} from "@azure/ai-text-analytics";
 import {AI_API_KEY, AI_ENDPOINT} from "../config/settings";
-import translate from "google-translate-api-x";
+import {medObj} from "../types";
 
 function nameFormatter(text: string): string {
     text = text.replace(/([A-Z])/g, '_$1').trim();
     return text.toLowerCase().slice(1);
 }
 
-async function translator(data: Object): Promise<Object> {
-
-    let translatedData: string[] = [];
-    const res = await translate(data, {from: 'ru', to: 'en'});
-    for (let resKey in res) {
-        // @ts-ignore
-        translatedData.push(res[resKey].text);
-    }
-    return translatedData;
-}
-
-export async function textAnalytics(documents: string[]) {
+export async function textAnalytics(documents: string[]): Promise<{ error: boolean, message: TextAnalyticsError | null, data: medObj | null }> {
     const client = new TextAnalyticsClient(AI_ENDPOINT, new AzureKeyCredential(AI_API_KEY));
 
-    const data = {
+    const data: medObj = {
         abbreviation: [], body_site_of_condition: [], body_site_of_treatment: [],
         course_of_condition: [], course_of_examination: [], course_of_medication: [],
         course_of_treatment: [], direction_of_body_structure: [], direction_of_condition: [],
@@ -64,9 +53,8 @@ export async function textAnalytics(documents: string[]) {
                     }
                 }
             }
-        } else console.error("\tError:", result.error);
+        } else return {error: true, message: result.error, data};
     }
 
-    console.log(data)
-    await translator(data);
+    return {error: false, message: null, data};
 }
