@@ -1,7 +1,7 @@
 import {Request} from "express";
-import {Users} from "./entities";
+import {Doctors} from "./entities";
 
-export type UserRequest = Request & { user: Users | undefined, locals: Date };
+export type UserRequest = Request & { user: Doctors | undefined, locals: Date };
 
 export type medObj = {
     abbreviation: [], body_site_of_condition: [], body_site_of_treatment: [],

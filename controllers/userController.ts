@@ -3,42 +3,39 @@ import {generateJWT, verifyJWT} from "../helpers/jwt";
 import {NextFunction, Request, Response} from "express";
 import {UserRequest} from "../types";
 import bcryptjs from "bcryptjs";
-import {Users} from "../entities";
+import {Doctors} from "../entities";
 
 async function register(req: Request, res: Response, next: NextFunction) {
     try {
-        const {name, email, password, repeat_password} = req.body;
+        const {name, IIN, password, role, id} = req.body;
 
-        if (!name || !password || !name) {
-            res.status(400).send("Missing name, email or password");
+        if (!name || !password || !IIN || !role) {
+            res.status(400).json({error: true, message: 'Missing something'});
             return next();
         }
 
-        if (password != repeat_password) {
-            res.status(400).send("Passwords don't match");
-            return next();
-        }
-
-        const existingUser = await DI.em.findOne(Users, {email});
+        const existingUser = await DI.em.findOne(Doctors, {id});
 
         if (existingUser) {
-            res.status(400).send("User already exists");
+            res.status(400).json({error: true, message: 'User already exists'});
             return next();
         }
 
         const slat = bcryptjs.genSaltSync(10);
         const hashedPassword = await bcryptjs.hash(password, slat);
 
-        const user = DI.em.create(Users, {
-            email,
+        const user = DI.em.create(Doctors, {
+            IIN,
+            id,
             name,
+            role,
             password: hashedPassword
         });
 
         await DI.em.persistAndFlush(user);
 
         if (!user) {
-            res.status(500).send("Cannot create user");
+            res.status(500).json({error: true, message: 'Cannot create user'});
             return next();
         }
 
@@ -51,24 +48,24 @@ async function register(req: Request, res: Response, next: NextFunction) {
 
 async function login(req: Request, res: Response, next: NextFunction) {
     try {
-        const {email, password} = req.body;
+        const {IIN, password} = req.body;
 
-        if (!email || !password) {
-            res.status(400).send("Missing email or password");
+        if (!IIN || !password) {
+            res.status(400).json({error: true, message: 'Missing IIN or password'});
             return next();
         }
 
-        const user = await DI.em.findOne(Users, {email});
+        const user = await DI.em.findOne(Doctors, {IIN});
 
         if (!user) {
-            res.status(400).send("User does not exist");
+            res.status(400).json({error: true, message: 'User does not exist'});
             return next();
         }
 
         const isPasswordValid = await bcryptjs.compare(password, user.password);
 
         if (!isPasswordValid) {
-            res.status(400).send("Invalid password");
+            res.status(400).json({error: true, message: 'Invalid password'});
             return next();
         }
 
@@ -92,10 +89,10 @@ async function logout(req: Request, res: Response, next: NextFunction) {
 async function getCurrentUser(req: Request, res: Response, next: NextFunction) {
     try {
         const id = (req as UserRequest).user?.id;
-        const user = await DI.em.findOne(Users, {id});
+        const user = await DI.em.findOne(Doctors, {id});
 
         if (!user) {
-            res.status(404).send("User not found");
+            res.status(400).json({error: true, message: 'User not found'});
             return next();
         }
 
@@ -113,9 +110,9 @@ async function validate(req: Request, res: Response, next: NextFunction) {
 
         const id: number = (decoded as { id: number }).id;
 
-        const user = await DI.em.findOne(Users, {id});
+        const user = await DI.em.findOne(Doctors, {id});
         if (!user) {
-            res.status(400).send("User not found");
+            res.status(400).json({error: true, message: 'User not found'});
             return next();
         }
         (req as UserRequest).user = user;

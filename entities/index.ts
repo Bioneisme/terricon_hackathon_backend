@@ -1,7 +1,7 @@
 import {baseEntity} from "./baseEntity";
-import {Users} from "./userEntity";
+import {Doctors} from "./doctorEntity";
 import {MedicalForms} from "./medicalFormEntity";
 
-export {baseEntity, Users, MedicalForms};
+export {baseEntity, Doctors, MedicalForms};
 
-export default [baseEntity, Users, MedicalForms];
+export default [baseEntity, Doctors, MedicalForms];
