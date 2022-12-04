@@ -13,6 +13,8 @@ cloudinary.config({
     secure: true
 });
 
+const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+
 const exceptions = ['original_text', 'translated_text', 'created_at', 'updated_at', 'id', 'toJSON', 'pdf_url', 'doctor',
     'form_type', 'ptn_name', 'ptn_address', 'ptn_iin', 'ptn_number', 'ptn_dd', 'ptn_gender']
 
@@ -64,6 +66,7 @@ export async function convertToPdf(obj: MedicalForms, doctor: Doctors): Promise<
         }
 
         doc.end();
+        await delay(3000);
         const res = await cloudinary.uploader.upload(`doc.pdf`);
         return res.url;
     } catch (e) {

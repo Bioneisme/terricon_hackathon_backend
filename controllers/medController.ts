@@ -3,7 +3,7 @@ import translate from "google-translate-api-x";
 import {textAnalytics} from "../helpers/textAnalytics";
 import logger from "../config/logger";
 import {DI} from "../index";
-import {Doctors, MedicalForms} from "../entities";
+import {Doctors, MedicalForms, Records} from "../entities";
 import {convertToPdf} from "../helpers/convertToPdf";
 import {wrap} from "@mikro-orm/core";
 
@@ -40,10 +40,12 @@ async function analysis(req: Request, res: Response, next: NextFunction) {
             return next();
         }
 
+        const record = await DI.em.findOne(Records, {id: form_type});
+
         const form = DI.em.create(MedicalForms, {
             original_text: data, translated_text: translatedData,
             ptn_number, ptn_name, ptn_gender, ptn_dd, ptn_iin, ptn_address,
-            form_type, doctor, ...info.data
+            form_type: record?.title || form_type, doctor, ...info.data
         });
 
 
