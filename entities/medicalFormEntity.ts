@@ -11,6 +11,24 @@ export class MedicalForms extends baseEntity {
     translated_text!: string[];
 
     @Property({type: "string"})
+    ptn_name!: string;
+
+    @Property({type: "string"})
+    ptn_gender!: string;
+
+    @Property({type: "string"})
+    ptn_dd!: string;
+
+    @Property({type: "string"})
+    ptn_address!: string;
+
+    @Property({type: "string"})
+    ptn_number!: string;
+
+    @Property({type: "string"})
+    ptn_iin!: string;
+
+    @Property({type: "string"})
     pdf_url?: string;
 
     @Property({type: "string"})
@@ -148,10 +166,18 @@ export class MedicalForms extends baseEntity {
                 time_of_condition: string[], time_of_event: string[], time_of_examination: string[], time_of_medication: string[],
                 time_of_treatment: string[], unit_of_condition: string[], unit_of_examination: string[], value_of_condition: string[],
                 value_of_examination: string[], variant_of_gene: string[], route_of_medication: string[], diagnosis: string[],
-                symptom_or_sign: string[], medication_name: string[], treatment_name: string[]) {
+                symptom_or_sign: string[], medication_name: string[], treatment_name: string[],
+                ptn_name: string, ptn_gender: string, ptn_dd: string, ptn_address: string, ptn_number: string,
+                ptn_iin: string) {
         super();
         this.original_text = original_text;
         this.translated_text = translated_text;
+        this.ptn_address = ptn_address;
+        this.ptn_dd = ptn_dd;
+        this.ptn_iin = ptn_iin;
+        this.ptn_gender = ptn_gender;
+        this.ptn_name = ptn_name;
+        this.ptn_number = ptn_number;
         this.pdf_url = pdf_url;
         this.doctor = doctor;
         this.form_type = form_type;

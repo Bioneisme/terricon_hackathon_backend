@@ -3,7 +3,7 @@ import translate from "google-translate-api-x";
 import {textAnalytics} from "../helpers/textAnalytics";
 import logger from "../config/logger";
 import {DI} from "../index";
-import {MedicalForms} from "../entities";
+import {Doctors, MedicalForms} from "../entities";
 import {convertToPdf} from "../helpers/convertToPdf";
 import {wrap} from "@mikro-orm/core";
 
@@ -26,7 +26,7 @@ async function translator(data: any): Promise<string[]> {
 
 async function analysis(req: Request, res: Response, next: NextFunction) {
     try {
-        const {data, form_type, doctor_id} = req.body;
+        const {data, form_type, doctor_id, ptn_name, ptn_gender, ptn_dd, ptn_number, ptn_address, ptn_iin} = req.body;
         const translatedData: string[] = await translator(data);
         const info = await textAnalytics(translatedData);
         if (info.error || info.data == null) {
@@ -34,12 +34,23 @@ async function analysis(req: Request, res: Response, next: NextFunction) {
             return next();
         }
 
-        const form = DI.em.create(MedicalForms, {original_text: data, translated_text: translatedData,
-            form_type, doctor: doctor_id, ...info.data});
+        const doctor = await DI.em.findOne(Doctors, {id: doctor_id});
+        if (!doctor) {
+            res.status(400).json({error: true, message: 'Incorrect doctor id'});
+            return next();
+        }
 
-        const url = await convertToPdf(form);
+        const form = DI.em.create(MedicalForms, {
+            original_text: data, translated_text: translatedData,
+            ptn_number, ptn_name, ptn_gender, ptn_dd, ptn_iin, ptn_address,
+            form_type, doctor, ...info.data
+        });
+
+
+        const url = await convertToPdf(form, doctor);
+
         wrap(form).assign({
-            pdf_url: url
+            pdf_url: url || ""
         });
 
         await DI.em.persistAndFlush(form);
