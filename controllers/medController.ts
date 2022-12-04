@@ -109,5 +109,20 @@ async function deleteFormById(req: Request, res: Response, next: NextFunction) {
     }
 }
 
+async function getNumberOfForms(req: Request, res: Response, next: NextFunction) {
+    try {
+        const {id} = req.params;
+        const forms = await DI.em.find(MedicalForms, {doctor: +id});
+        if (!forms) {
+            res.send(0);
+        } else {
+            res.send(forms.length);
+        }
+    } catch (e) {
+        logger.error(`getNumberOfForms controller: ${e}`);
+        return next();
+    }
+}
 
-export {analysis, getAllForms, getFormById, deleteFormById};
+
+export {analysis, getAllForms, getFormById, deleteFormById, getNumberOfForms};
