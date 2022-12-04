@@ -15,7 +15,7 @@
 * NodeJS, NPM (https://www.npmjs.com/get-npm)
 * PostgreSQL (https://www.postgresql.org)
 * Cloudinary API (https://cloudinary.com)
-* Azure Cognitive Service (https://test-terricon-ai.cognitiveservices.azure.com/)
+* Azure Cognitive Service (https://learn.microsoft.com/ru-ru/azure/cognitive-services/language-service/text-analytics-for-health/overview)
 
 ### Installing
 ```bash
