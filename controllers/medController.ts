@@ -11,7 +11,7 @@ async function translator(data: any): Promise<string[]> {
     try {
         let translatedData: string[] = [];
 
-        const res = await translate(data, {to: 'en', forceTo: true});
+        const res = await translate(data, {from: 'ru', to: 'en', forceTo: true});
         for (let resKey in res) {
             // @ts-ignore
             translatedData.push(res[resKey].text)
@@ -20,7 +20,6 @@ async function translator(data: any): Promise<string[]> {
         return translatedData;
     } catch (e) {
         logger.error(`Analysis Translator: ${e}`);
-        console.log(e)
         return translator(data);
     }
 }
