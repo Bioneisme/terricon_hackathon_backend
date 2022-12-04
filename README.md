@@ -2,7 +2,6 @@
 
 - [Navigation](#navigation)
     - [Features](#features)
-    - [Endpoints](#endpoints)
     - [Installation](#prerequisites)
 
 ## Features:
